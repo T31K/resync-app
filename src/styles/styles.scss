@@ -63,3 +63,9 @@
 
   --radius: 0.5rem;
 }
+
+.line {
+  background: hsl(var(--border));
+  width: 1.5px;
+  height: 100%;
+}
