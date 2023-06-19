@@ -69,3 +69,21 @@
   width: 1.5px;
   height: 100%;
 }
+
+.w-md-editor {
+  box-shadow: none !important;
+  border-radius: .5em !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1 !important;
+  
+  &-toolbar {
+    border-top-right-radius: .5em !important;
+    border-top-left-radius: .5em !important;
+    background: hsl(var(--secondary)) !important; 
+  }
+  
+  &-content {
+    border-bottom-right-radius: 2em !important;
+    border-bottom-left-radius: 2em !important;
+  }
+}
