@@ -74,105 +74,117 @@ function Vote({ voteData, setVoteData }) {
   ];
 
   return (
-    <Card className={cn('w-[750px]')}>
-      <CardHeader>
-        <CardTitle>Make a decision</CardTitle>
-        <CardDescription>Diplomatic wins!</CardDescription>
-      </CardHeader>
-      <CardContent className="">
-        <Tabs defaultValue="vote">
-          <TabsList>
-            <TabsTrigger value="vote">Vote </TabsTrigger>
-            <TabsTrigger
-              value="chart"
-              // disabled={}
-            >
-              Results
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent
-            value="vote"
-            className="py-6"
-          >
-            <RadioGroup defaultValue="option-one">
-              {voteData?.options?.map((option, key) => (
-                <Card
-                  className="w-full my-"
-                  key={key}
-                >
-                  <CardHeader className="flex flex-row items-center justify-between gap-8 pt-2.5 pb-3 px-8">
-                    <div className="flex items-center gap-8">
-                      <RadioGroupItem
-                        value={option.value}
-                        id="option-one"
-                      />
-                      <div>
-                        <CardTitle className="text-lg my-0">{option?.title} </CardTitle>
-                        <CardDescription className="!my-0">{option?.subtitle}</CardDescription>
-                      </div>
-                    </div>
-                    <Trash2 className="w-[30px] h-[30px] bg-gray-100 hover:bg-gray-200 hover:text-red-500 p-2 rounded-lg" />
-                  </CardHeader>
-                </Card>
-              ))}
-            </RadioGroup>
-          </TabsContent>
-          <TabsContent
-            value="chart"
-            className="py-6"
-          >
-            <ResponsiveContainer
-              width="100%"
-              height={350}
-            >
-              <BarChart data={data}>
-                <XAxis
-                  dataKey="name"
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `$${value}`}
-                />
-                <Bar
-                  dataKey="total"
-                  fill="#adfa1d"
-                  radius={[4, 4, 0, 0]}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-      <CardContent>
-        <Separator className="my-5" />
-        <CardTitle className="text-lg">Add a vote</CardTitle>
-
-        <Card className="w-full my-3">
-          <CardHeader className="flex flex-row items-center gap-8 pt-1.5 pb-3 px-8">
-            <Checkbox id="terms1" />
-            <div>
-              <CardTitle
-                className="text-lg my-0"
-                contenteditable
-              >
-                Create project
-              </CardTitle>
-              <CardDescription className="!my-0">Deploy your new project in one-click.</CardDescription>
-            </div>
+    <>
+      <AlertDialog>
+        <Card className={cn('w-[750px]')}>
+          <CardHeader>
+            <CardTitle>Make a decision</CardTitle>
+            <CardDescription>Diplomatic wins!</CardDescription>
           </CardHeader>
+          <CardContent className="">
+            <Tabs defaultValue="vote">
+              <TabsList>
+                <TabsTrigger value="vote">Vote </TabsTrigger>
+                <TabsTrigger
+                  value="chart"
+                  // disabled={}
+                >
+                  Results
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="vote"
+                className="py-6"
+              >
+                <RadioGroup defaultValue="option-one">
+                  {voteData?.options?.map((option, key) => (
+                    <Card
+                      className="w-full my-"
+                      key={key}
+                    >
+                      <CardHeader className="flex flex-row items-center justify-between gap-8 pt-2.5 pb-3 px-8">
+                        <div className="flex items-center gap-8">
+                          <RadioGroupItem
+                            value={option.value}
+                            id="option-one"
+                          />
+                          <div>
+                            <CardTitle className="text-lg my-0">{option?.title} </CardTitle>
+                            <CardDescription className="!my-0">{option?.subtitle}</CardDescription>
+                          </div>
+                        </div>
+                        <AlertDialogTrigger>
+                          <Trash2 className="w-[30px] h-[30px] bg-gray-100 hover:bg-gray-200 hover:text-red-500 p-2 rounded-lg" />
+                        </AlertDialogTrigger>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </RadioGroup>
+              </TabsContent>
+              <TabsContent
+                value="chart"
+                className="py-6"
+              >
+                <ResponsiveContainer
+                  width="100%"
+                  height={350}
+                >
+                  <BarChart data={data}>
+                    <XAxis
+                      dataKey="name"
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      stroke="#888888"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(value) => `$${value}`}
+                    />
+                    <Bar
+                      dataKey="total"
+                      fill="#adfa1d"
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+          <CardContent>
+            <Separator className="my-5" />
+            <CardTitle className="text-lg">Add a vote</CardTitle>
+
+            <Card className="w-full my-3">
+              <CardHeader className="flex flex-row items-center gap-8 pt-1.5 pb-3 px-8">
+                <Checkbox id="terms1" />
+                <div>
+                  <CardTitle className="text-lg my-0">Create project</CardTitle>
+                  <CardDescription className="!my-0">Deploy your new project in one-click.</CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
+            <div className="flex justify-end">
+              <Button>Add</Button>
+            </div>
+          </CardContent>
         </Card>
-        <div className="flex justify-end">
-          <Button>Add</Button>
-        </div>
-      </CardContent>
-    </Card>
+
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive">Confirm</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 

@@ -26,7 +26,7 @@ function Discuss({ discussData, setDiscussData }) {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="w-full">
-              <div className="text-sm text-muted-foreground mb-2">{comment.name}</div>
+              <div className="text-sm text-muted-foreground mb-2 capitalize">{comment.name}</div>
               <div className="rounded-lg border">
                 <MDEditor
                   value={comment.text}

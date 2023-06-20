@@ -36,7 +36,7 @@ function Describe({ describeData, setDescribeData }) {
             </SelectContent>
           </Select>
         </div>
-        <div className="rounded-lg border ">
+        <div className="rounded-lg border border-gray-400 w-full">
           <MDEditor
             value={describeData?.editor}
             onChange={(val) => setDescribeData({ ...describeData, editor: val })}
