@@ -8,9 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 import MDEditor from '@uiw/react-md-editor';
 
-function Describe() {
-  const [value, setValue] = useState('**Hello world!!!**');
-
+function Describe({ describeData, setDescribeData }) {
   return (
     <Card className={cn('w-[750px]')}>
       <CardHeader>
@@ -25,26 +23,29 @@ function Describe() {
           >
             Type of meeting
           </Label>
-          <Select>
+          <Select
+            onValueChange={(val) => setDescribeData({ ...describeData, type: val })}
+            defaultValue={describeData.type}
+          >
             <SelectTrigger className="w-[250px] rounded-lg">
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Decision Making</SelectItem>
-              <SelectItem value="dark">Show & tell (coming soon)</SelectItem>
+              <SelectItem value="decision">Decision Making</SelectItem>
+              <SelectItem value="show">Show & tell (coming soon)</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="rounded-lg border ">
           <MDEditor
-            value={value}
-            onChange={setValue}
+            value={describeData?.editor}
+            onChange={(val) => setDescribeData({ ...describeData, editor: val })}
             visibleDragbar={false}
           />
         </div>
       </CardContent>
       <CardFooter className="justify-end">
-        <Button>Submit</Button>
+        <Button>Save</Button>
       </CardFooter>
     </Card>
   );

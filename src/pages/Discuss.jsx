@@ -8,9 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 import MDEditor from '@uiw/react-md-editor';
 
-function Discuss() {
-  const [value, setValue] = useState('**Hello world!!!**');
-
+function Discuss({ discussData, setDiscussData }) {
   return (
     <Card className={cn('w-[750px]')}>
       <CardHeader>
@@ -18,54 +16,31 @@ function Discuss() {
         <CardDescription>Helpful comments go a long way.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex gap-3 my-3">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div className="rounded-lg border w-full">
-            <MDEditor
-              value={value}
-              onChange={setValue}
-              hideToolbar
-              visibleDragbar={false}
-              overflow={true}
-              preview="preview"
-            />
+        {discussData?.comments.map((comment, key) => (
+          <div
+            className="flex gap-3 mb-8"
+            key={key}
+          >
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="w-full">
+              <div className="text-sm text-muted-foreground mb-2">{comment.name}</div>
+              <div className="rounded-lg border">
+                <MDEditor
+                  value={comment.text}
+                  hideToolbar
+                  height={Math.ceil(comment.text.length / 90) * 55}
+                  visibleDragbar={false}
+                  overflow={true}
+                  preview="preview"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex gap-3 my-3">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div className="rounded-lg border w-full">
-            <MDEditor
-              value={value}
-              onChange={setValue}
-              hideToolbar
-              visibleDragbar={false}
-              overflow={true}
-              preview="preview"
-            />
-          </div>
-        </div>
-        <div className="flex gap-3 my-3">
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <div className="rounded-lg border w-full">
-            <MDEditor
-              value={value}
-              onChange={setValue}
-              hideToolbar
-              visibleDragbar={false}
-              overflow={true}
-              preview="preview"
-            />
-          </div>
-        </div>
+        ))}
+
         <Separator className="my-5" />
         <div className="flex gap-3 my-3">
           <Avatar>
@@ -74,11 +49,11 @@ function Discuss() {
           </Avatar>
           <div className="rounded-lg border border-gray-400 w-full">
             <MDEditor
-              value={value}
-              onChange={setValue}
+              value={discussData?.editor}
+              onChange={(val) => setDiscussData({ ...discussData, editor: val })}
               visibleDragbar={false}
               overflow={true}
-              preview="preview"
+              preview="edit"
             />
           </div>
         </div>

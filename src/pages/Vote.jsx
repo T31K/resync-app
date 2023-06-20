@@ -1,14 +1,27 @@
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 
 import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
-function Vote() {
+function Vote({ voteData, setVoteData }) {
   const data = [
     {
       name: 'Jan',
@@ -70,30 +83,39 @@ function Vote() {
         <Tabs defaultValue="vote">
           <TabsList>
             <TabsTrigger value="vote">Vote </TabsTrigger>
-            <TabsTrigger value="chart">Results</TabsTrigger>
+            <TabsTrigger
+              value="chart"
+              // disabled={}
+            >
+              Results
+            </TabsTrigger>
           </TabsList>
           <TabsContent
             value="vote"
             className="py-6"
           >
-            <Card className="w-full my-">
-              <CardHeader className="flex flex-row items-center gap-8 pt-1.5 pb-3 px-8">
-                <Checkbox id="terms1" />
-                <div>
-                  <CardTitle className="text-lg my-0">Create project</CardTitle>
-                  <CardDescription className="!my-0">Deploy your new project in one-click.</CardDescription>
-                </div>
-              </CardHeader>
-            </Card>
-            <Card className="w-full my-3">
-              <CardHeader className="flex flex-row items-center gap-8 pt-1.5 pb-3 px-8">
-                <Checkbox id="terms1" />
-                <div>
-                  <CardTitle className="text-lg my-0">Create project</CardTitle>
-                  <CardDescription className="!my-0">Deploy your new project in one-click.</CardDescription>
-                </div>
-              </CardHeader>
-            </Card>
+            <RadioGroup defaultValue="option-one">
+              {voteData?.options?.map((option, key) => (
+                <Card
+                  className="w-full my-"
+                  key={key}
+                >
+                  <CardHeader className="flex flex-row items-center justify-between gap-8 pt-2.5 pb-3 px-8">
+                    <div className="flex items-center gap-8">
+                      <RadioGroupItem
+                        value={option.value}
+                        id="option-one"
+                      />
+                      <div>
+                        <CardTitle className="text-lg my-0">{option?.title} </CardTitle>
+                        <CardDescription className="!my-0">{option?.subtitle}</CardDescription>
+                      </div>
+                    </div>
+                    <Trash2 className="w-[30px] h-[30px] bg-gray-100 hover:bg-gray-200 hover:text-red-500 p-2 rounded-lg" />
+                  </CardHeader>
+                </Card>
+              ))}
+            </RadioGroup>
           </TabsContent>
           <TabsContent
             value="chart"
@@ -136,7 +158,12 @@ function Vote() {
           <CardHeader className="flex flex-row items-center gap-8 pt-1.5 pb-3 px-8">
             <Checkbox id="terms1" />
             <div>
-              <CardTitle className="text-lg my-0">Create project</CardTitle>
+              <CardTitle
+                className="text-lg my-0"
+                contenteditable
+              >
+                Create project
+              </CardTitle>
               <CardDescription className="!my-0">Deploy your new project in one-click.</CardDescription>
             </div>
           </CardHeader>
