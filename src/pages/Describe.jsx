@@ -25,7 +25,7 @@ function Describe({ describeData, setDescribeData }) {
           </Label>
           <Select
             onValueChange={(val) => setDescribeData({ ...describeData, type: val })}
-            defaultValue={describeData.type}
+            defaultValue={describeData?.type}
           >
             <SelectTrigger className="w-[250px] rounded-lg">
               <SelectValue placeholder="Select type" />
@@ -41,6 +41,7 @@ function Describe({ describeData, setDescribeData }) {
             value={describeData?.editor}
             onChange={(val) => setDescribeData({ ...describeData, editor: val })}
             visibleDragbar={false}
+            scroll
           />
         </div>
       </CardContent>

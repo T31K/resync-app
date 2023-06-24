@@ -1,27 +1,65 @@
+import axios from 'axios';
 import { Sidebar } from './components/sidebar';
-import { playlists } from './data/playlists';
 
 import './styles/styles.scss';
 
+import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect, useState } from 'react';
+
 import Home from './pages/Home.jsx';
+import Show from './pages/Show.jsx';
+import Login from './pages/Login.jsx';
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
+  const { isAuthenticated, user } = useAuth0();
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [meetingData, setMeetingData] = useState([]);
+
   return (
-    <>
-      <div className="flex w-screen h-screen text-gray-700 overflow-hidden">
-        <div className="flex flex-col w-64 !min-w-[16rem] !max-w-[16rem] overflow-hidden border-r">
-          <Sidebar playlists={playlists} />
-        </div>
-        <div className="flex flex-col flex-grow overflow-y-auto">
-          <div></div>
-          <div className="flex-grow p-4">
-            <div className="flex items-center flex-col">
-              <Home />
-            </div>
+    <Router>
+      {isAuthenticated ? (
+        <div className="flex w-screen h-screen text-gray-700 overflow-hidden">
+          <div className="flex flex-col w-[20rem] !min-w-[20rem] !max-w-[20rem] overflow-hidden border-r">
+            <Sidebar meetingData={meetingData} />
+          </div>
+          <div className=" flex-grow overflow-y-auto">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    isLoading={isLoading}
+                    activeIndex={activeIndex}
+                    meetingData={meetingData}
+                    setIsLoading={setIsLoading}
+                    setActiveIndex={setActiveIndex}
+                    setMeetingData={setMeetingData}
+                  />
+                }
+              />
+              <Route
+                path="/:id"
+                element={
+                  <Show
+                    isLoading={isLoading}
+                    activeIndex={activeIndex}
+                    meetingData={meetingData}
+                    setIsLoading={setIsLoading}
+                    setActiveIndex={setActiveIndex}
+                    setMeetingData={setMeetingData}
+                  />
+                }
+              />
+            </Routes>
           </div>
         </div>
-      </div>
-    </>
+      ) : (
+        <Login />
+      )}
+    </Router>
   );
 }
 
