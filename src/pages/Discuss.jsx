@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -7,8 +7,26 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 import MDEditor from '@uiw/react-md-editor';
+import { useAuth0 } from '@auth0/auth0-react';
 
-function Discuss({ discussData, setDiscussData }) {
+function Discuss({ discussData, setDiscussData, updateMeeting }) {
+  const { user } = useAuth0();
+  const [dataChanged, setDataChanged] = useState(false);
+
+  useEffect(() => {
+    if (dataChanged) {
+      updateMeeting();
+      setDataChanged(false);
+    }
+  }, [dataChanged]);
+
+  const handleSubmit = () => {
+    const text = `${discussData.editor}`;
+    const updatedComments = [...discussData.comments, { name: user.name, text: text }];
+    setDiscussData({ ...discussData, comments: updatedComments });
+    setDataChanged(true);
+  };
+
   return (
     <Card className={cn('w-[750px]')}>
       <CardHeader>
@@ -22,8 +40,8 @@ function Discuss({ discussData, setDiscussData }) {
             key={key}
           >
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src="" />
+              <AvatarFallback>{user?.name[0]}</AvatarFallback>
             </Avatar>
             <div className="w-full">
               <div className="text-sm text-muted-foreground mb-2 capitalize">{comment.name}</div>
@@ -44,8 +62,8 @@ function Discuss({ discussData, setDiscussData }) {
         <Separator className="my-5" />
         <div className="flex gap-3 my-3">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="" />
+            <AvatarFallback>{user?.name[0]}</AvatarFallback>
           </Avatar>
           <div className="rounded-lg border border-gray-400 w-full">
             <MDEditor
@@ -59,7 +77,7 @@ function Discuss({ discussData, setDiscussData }) {
         </div>
       </CardContent>
       <CardFooter className="justify-end">
-        <Button>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </CardFooter>
     </Card>
   );

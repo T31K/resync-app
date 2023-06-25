@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 import MDEditor from '@uiw/react-md-editor';
 
-function Describe({ describeData, setDescribeData }) {
+function Describe({ describeData, setDescribeData, updateMeeting }) {
   return (
     <Card className={cn('w-[750px]')}>
       <CardHeader>
@@ -32,7 +32,12 @@ function Describe({ describeData, setDescribeData }) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="decision">Decision Making</SelectItem>
-              <SelectItem value="show">Show & tell (coming soon)</SelectItem>
+              <SelectItem
+                value="show"
+                disabled
+              >
+                Show & tell (coming soon)
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -41,12 +46,11 @@ function Describe({ describeData, setDescribeData }) {
             value={describeData?.editor}
             onChange={(val) => setDescribeData({ ...describeData, editor: val })}
             visibleDragbar={false}
-            scroll
           />
         </div>
       </CardContent>
       <CardFooter className="justify-end">
-        <Button>Save</Button>
+        <Button onClick={updateMeeting}>Save</Button>
       </CardFooter>
     </Card>
   );

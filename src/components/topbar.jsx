@@ -15,10 +15,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../components/ui/alert-dialog';
-import { X } from 'lucide-react';
+import { X, CheckCircleIcon } from 'lucide-react';
 
 function TopBar({ name, link }) {
-  const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+  const randomGradient = gradients[name.charCodeAt(name.length - 1)];
 
   const handleCopy = async () => {
     const text = link ? `https://app.getresync.app/${link}` : null;
@@ -42,9 +42,12 @@ function TopBar({ name, link }) {
           style={{ background: `linear-gradient(to bottom, ${randomGradient.colors.join(', ')})` }}
         ></div>
       </div>
-      <div className="absolute top-0 left-0 w-full h-full flex justify-around items-center">
-        <Button className="invisible">Save</Button>
-        <div className="text-primary text-3xl font-semibold tracking-tight leading-none capitalize">
+      <div className="absolute top-0 left-0 w-full h-full flex justify-center  items-center">
+        <div className="leading-none flex items-center gap-1.5 tracking-tight font-medium bg-green-100 px-3 py-2 rounded-lg invisible">
+          <CheckCircleIcon size="12px" />
+          Saved
+        </div>
+        <div className="text-primary text-2xl font-semibold tracking-tight leading-none capitalize text-center w-[50%] mx-1">
           {name?.length < 0 ? 'Loading' : name}
         </div>
         <AlertDialog>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Bot } from 'lucide-react';
 
 export function Home({ meetingData, setMeetingData }) {
   const { user } = useAuth0();
@@ -20,9 +21,16 @@ export function Home({ meetingData, setMeetingData }) {
 
   return (
     <>
-      <div className="flex-grow p-4">
-        <div className="flex items-center flex-col"></div>
-        <h1>Select a meeting</h1>
+      <div className="h-screen p-4 ">
+        <div className="flex items-center justify-center flex-col h-[80%]">
+          <Bot
+            size="150px"
+            strokeWidth={'0.8px'}
+          />
+          <div className="leading-none tracking-tight text-2xl font-medium text-muted-foreground">
+            Select a meeting to view
+          </div>
+        </div>
       </div>
     </>
   );

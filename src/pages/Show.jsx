@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Toaster, toast } from 'sonner';
 
 import Describe from './Describe';
 import Discuss from './Discuss';
@@ -29,6 +30,18 @@ function Show() {
     }
   }
 
+  async function updateMeeting() {
+    const id = location?.pathname.slice(1);
+    try {
+      const res = await axios.put(`http://localhost:3001/meetings/${id}/update`, meetingData);
+      console.log(meetingData);
+      if (res.status === 200) toast.success('Updated successfully!');
+    } catch (error) {
+      toast.error('Error, try again');
+      console.error(error);
+    }
+  }
+
   return (
     <>
       {!isLoading ? (
@@ -38,7 +51,7 @@ function Show() {
             link={meetingData?.uuid}
           />
           <div className="flex-grow p-4">
-            <div className="flex items-center flex-col">
+            <div className="flex items-center flex-col ">
               <Tabs
                 defaultValue="describe"
                 className="w-[800px]"
@@ -52,41 +65,42 @@ function Show() {
                   <Describe
                     describeData={meetingData?.describe}
                     setDescribeData={(updatedData) =>
-                      setMeetingData((prevData) => {
-                        const newData = [...prevData];
-                        newData.describe = updatedData;
-                        return newData;
-                      })
+                      setMeetingData((prevData) => ({
+                        ...prevData,
+                        describe: updatedData,
+                      }))
                     }
+                    updateMeeting={updateMeeting}
                   />
                 </TabsContent>
                 <TabsContent value="discuss">
                   <Discuss
                     discussData={meetingData?.discuss}
                     setDiscussData={(updatedData) =>
-                      setMeetingData((prevData) => {
-                        const newData = [...prevData];
-                        newData.discuss = updatedData;
-                        return newData;
-                      })
+                      setMeetingData((prevData) => ({
+                        ...prevData,
+                        discuss: updatedData,
+                      }))
                     }
+                    updateMeeting={updateMeeting}
                   />
                 </TabsContent>
                 <TabsContent value="vote">
                   <Vote
                     voteData={meetingData?.vote}
                     setVoteData={(updatedData) =>
-                      setMeetingData((prevData) => {
-                        const newData = [...prevData];
-                        newData.vote = updatedData;
-                        return newData;
-                      })
+                      setMeetingData((prevData) => ({
+                        ...prevData,
+                        vote: updatedData,
+                      }))
                     }
+                    updateMeeting={updateMeeting}
                   />
                 </TabsContent>
               </Tabs>
             </div>
           </div>
+          <Toaster position="bottom-left" />
         </>
       ) : (
         <h1>Loading</h1>

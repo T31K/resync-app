@@ -13,9 +13,8 @@ import Login from './pages/Login.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const [isLoading, setIsLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [meetingData, setMeetingData] = useState([]);
 
   return (
@@ -32,10 +31,8 @@ function App() {
                 element={
                   <Home
                     isLoading={isLoading}
-                    activeIndex={activeIndex}
                     meetingData={meetingData}
                     setIsLoading={setIsLoading}
-                    setActiveIndex={setActiveIndex}
                     setMeetingData={setMeetingData}
                   />
                 }
@@ -45,10 +42,8 @@ function App() {
                 element={
                   <Show
                     isLoading={isLoading}
-                    activeIndex={activeIndex}
                     meetingData={meetingData}
                     setIsLoading={setIsLoading}
-                    setActiveIndex={setActiveIndex}
                     setMeetingData={setMeetingData}
                   />
                 }
