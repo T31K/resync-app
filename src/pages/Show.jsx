@@ -28,15 +28,20 @@ function Show() {
       console.log(res.data);
       if (res.status === 200) {
         if (!res.data.discuss) {
-          res.data.discuss.editor = ' ';
-          res.data.discuss.comments = [{ name: '', text: '' }];
+          res.data.discuss = {
+            editor: ' ',
+            comments: [{ name: '', text: '' }],
+          };
         }
-
         if (!res.data.vote) {
-          res.data.vote.editor.title = '';
-          res.data.vote.editor.value = '';
-          res.data.vote.editor.subtitle = '';
-          res.data.vote.options = [{ subs: [], title: ' ', value: '', subtitle: '' }];
+          res.data.vote = {
+            editor: {
+              title: '',
+              value: '',
+              subtitle: '',
+            },
+            options: [{ subs: [], title: ' ', value: '', subtitle: '' }],
+          };
         }
         setMeetingData(res.data);
       }
