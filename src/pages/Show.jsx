@@ -25,6 +25,7 @@ function Show() {
   async function fetchMeeting(id) {
     try {
       const res = await axios.get(`https://api.getresync.com/meetings/${id}`);
+      console.log(res.data);
       if (res.status === 200) {
         if (!res.data.discuss) {
           res.data.discuss.editor = ' ';
