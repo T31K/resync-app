@@ -36,7 +36,7 @@ function Discuss({ discussData, setDiscussData, updateMeeting }) {
       <CardContent>
         {discussData?.comments.map((comment, key) => (
           <div
-            className="flex gap-3 mb-8"
+            className={`flex gap-3 mb-8 ${comment?.text?.length == 0 ? 'hidden' : ''}`}
             key={key}
           >
             <Avatar>

@@ -90,7 +90,6 @@ export function Sidebar({ className }) {
                   className="w-full justify-start capitalize"
                   onClick={() => navigate(`/${meeting?.uuid}`)}
                 >
-                  <PlayCircle className="mr-2 h-4 w-4" />
                   {meeting?.name?.substring(0, 30)}
                 </Button>
               </div>
@@ -106,7 +105,6 @@ export function Sidebar({ className }) {
               className="w-full justify-start"
               onClick={handleClick}
             >
-              <ListMusic className="mr-2 h-4 w-4" />
               Create new meeting
             </Button>
           </div>
