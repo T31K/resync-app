@@ -16,6 +16,7 @@ import {
   AlertDialogTrigger,
 } from '../components/ui/alert-dialog';
 import { X, CheckCircleIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 function TopBar({ meetingData, setMeetingData, updateMeeting }) {
   const updateCloseBtn = useRef(null);
@@ -23,12 +24,12 @@ function TopBar({ meetingData, setMeetingData, updateMeeting }) {
   const randomGradient = gradients[meetingData?.name?.charCodeAt(meetingData?.name[6])];
 
   const handleCopy = async () => {
-    const text = meetingData?.link ? `https://app.getresync.app/${meetingData?.link}` : null;
+    const text = meetingData?.uuid ? `https://app.getresync.app/${meetingData?.uuid}` : null;
     if (text) {
       try {
         if (navigator.clipboard) {
           await navigator.clipboard.writeText(text);
-          console.log('Text copied to clipboard');
+          toast.success('Copied to clipboard');
         }
       } catch (err) {
         console.error('Failed to copy text: ', err);
@@ -38,6 +39,10 @@ function TopBar({ meetingData, setMeetingData, updateMeeting }) {
 
   const handleChange = async (e) => {
     setMeetingData({ ...meetingData, name: e.target.value });
+  };
+
+  const handleChangeNothing = () => {
+    return;
   };
 
   const handleSubmit = async () => {
@@ -72,7 +77,7 @@ function TopBar({ meetingData, setMeetingData, updateMeeting }) {
           <AlertDialogContent>
             <AlertDialogHeader>
               <div className="flex items-center justify-between mb-5">
-                <AlertDialogTitle>Update title</AlertDialogTitle>
+                <AlertDialogTitle>Update Title</AlertDialogTitle>
                 <AlertDialogCancel
                   className="border-0 absolute right-[4px] top-[5px]"
                   ref={updateCloseBtn}
@@ -80,14 +85,12 @@ function TopBar({ meetingData, setMeetingData, updateMeeting }) {
                   <X size="25px" />
                 </AlertDialogCancel>
               </div>
-              <AlertDialogDescription>
-                <div className="flex gap-2">
-                  <Input
-                    value={meetingData?.name}
-                    onChange={(e) => handleChange(e)}
-                  />
-                  <Button onClick={handleSubmit}>Update</Button>
-                </div>
+              <AlertDialogDescription className="flex gap-2">
+                <Input
+                  value={meetingData?.name}
+                  onChange={(e) => handleChange(e)}
+                />
+                <Button onClick={handleSubmit}>Update</Button>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter></AlertDialogFooter>
@@ -103,17 +106,18 @@ function TopBar({ meetingData, setMeetingData, updateMeeting }) {
                   <X size="25px" />
                 </AlertDialogCancel>
               </div>
-              <AlertDialogDescription>
-                <div className="flex gap-2">
-                  <Input value={meetingData?.link ? `https://app.getresync.app/${meetingData?.link}` : 'Loading'} />
-                  <Button onClick={handleCopy}>Copy</Button>
-                </div>
+              <AlertDialogDescription className="flex gap-2">
+                <Input
+                  value={meetingData?.uuid ? `https://app.getresync.app/${meetingData?.uuid}` : 'Loading'}
+                  onChange={handleChangeNothing}
+                />
+                <Button onClick={handleCopy}>Copy</Button>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter></AlertDialogFooter>
           </AlertDialogContent>
 
-          <AlertDialogTrigger>
+          <AlertDialogTrigger asChild>
             <Button>Share</Button>
           </AlertDialogTrigger>
         </AlertDialog>
