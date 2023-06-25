@@ -1,4 +1,16 @@
 import { LayoutGrid, Library, ListMusic, Mic2, Music, Music2, PlayCircle, Radio, User } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../components/ui/alert-dialog';
+
 import axios from 'axios';
 
 import { cn } from '../lib/utils';
@@ -9,6 +21,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { generateUUID } from '../utils/utils.js';
+import { Toaster, toast } from 'sonner';
 
 export function Sidebar({ className }) {
   const navigate = useNavigate();
@@ -24,6 +38,31 @@ export function Sidebar({ className }) {
     try {
       const res = await axios.post('https://api.getresync.com/meetings', { sub: user.sub });
       setLocalMeeting(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleClick = async () => {
+    if (localMeeting?.length < 5) {
+      try {
+        const uuid = await createMeeting();
+        navigate(`/${uuid}`);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      toast.error('Limit reached! Upgrade to create more meetings');
+    }
+  };
+  async function createMeeting() {
+    const uuid = await generateUUID();
+    try {
+      const res = await axios.post(`https://api.getresync.com/meetings/new`, { uuid: uuid, sub: user.sub });
+      if (res.status === 200) {
+        const { uuid } = res.data;
+        return uuid;
+      }
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +84,6 @@ export function Sidebar({ className }) {
                 className="space-y-1 my-2 "
                 key={key}
               >
-                {}
                 <Button
                   size="sm"
                   variant={location?.pathname.slice(1) === meeting?.uuid ? 'secondary' : 'ghost'}
@@ -53,7 +91,7 @@ export function Sidebar({ className }) {
                   onClick={() => navigate(`/${meeting?.uuid}`)}
                 >
                   <PlayCircle className="mr-2 h-4 w-4" />
-                  {meeting?.name.substring(0, 30)}
+                  {meeting?.name?.substring(0, 30)}
                 </Button>
               </div>
             ))}
@@ -66,6 +104,7 @@ export function Sidebar({ className }) {
               variant="ghost"
               size="sm"
               className="w-full justify-start"
+              onClick={handleClick}
             >
               <ListMusic className="mr-2 h-4 w-4" />
               Create new meeting

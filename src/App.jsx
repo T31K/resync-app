@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 import Home from './pages/Home.jsx';
 import Show from './pages/Show.jsx';
+import New from './pages/New.jsx';
 import Login from './pages/Login.jsx';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

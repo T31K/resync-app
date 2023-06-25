@@ -9,46 +9,18 @@ import Vote from './Vote';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useLocation } from 'react-router-dom';
 import TopBar from '../components/topbar';
-function Show() {
-  const { isAuthenticated, user } = useAuth0();
+
+function New() {
+  const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(true);
   const [meetingData, setMeetingData] = useState({});
+  const [firstLoad, setFirstLoad] = useState(true);
   const location = useLocation();
-
-  useEffect(() => {
-    if (location?.pathname) {
-      fetchMeeting(location?.pathname.slice(1));
-    }
-  }, [location]);
-
-  async function fetchMeeting(id) {
-    try {
-      const res = await axios.get(`https://api.getresync.com/meetings/${id}`);
-      if (res.status === 200) {
-        if (!res.data.discuss) {
-          res.data.discuss.editor = ' ';
-          res.data.discuss.comments = [{ name: '', text: '' }];
-        }
-
-        if (!res.data.vote) {
-          res.data.vote.editor.title = '';
-          res.data.vote.editor.value = '';
-          res.data.vote.editor.subtitle = '';
-          res.data.vote.options = [{ subs: [], title: ' ', value: '', subtitle: '' }];
-        }
-        setMeetingData(res.data);
-      }
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   async function updateMeeting() {
     const id = location?.pathname.slice(1);
     try {
-      const res = await axios.put(`https://api.getresync.com/meetings/${id}/update`, meetingData);
+      const res = await axios.put(`http://localhost:3001/meetings/${id}/update`, meetingData);
       console.log(meetingData);
       if (res.status === 200) toast.success('Updated successfully!');
     } catch (error) {
@@ -62,9 +34,8 @@ function Show() {
       {!isLoading ? (
         <>
           <TopBar
-            meetingData={meetingData}
-            setMeetingData={setMeetingData}
-            updateMeeting={updateMeeting}
+            name={meetingData?.name}
+            link={meetingData?.uuid}
           />
           <div className="flex-grow p-4">
             <div className="flex items-center flex-col ">
@@ -125,4 +96,4 @@ function Show() {
   );
 }
 
-export default Show;
+export default New;
