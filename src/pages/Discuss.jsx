@@ -21,7 +21,7 @@ function Discuss({ discussData, setDiscussData, updateMeeting }) {
   }, [dataChanged]);
 
   const handleSubmit = () => {
-    const text = `${discussData.editor}`;
+    const text = `${discussData?.editor}`;
     const updatedComments = [...discussData.comments, { name: user.name, text: text }];
     setDiscussData({ ...discussData, comments: updatedComments });
     setDataChanged(true);
