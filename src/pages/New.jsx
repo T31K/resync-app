@@ -20,7 +20,7 @@ function New() {
   async function updateMeeting() {
     const id = location?.pathname.slice(1);
     try {
-      const res = await axios.put(`http://localhost:3001/meetings/${id}/update`, meetingData);
+      const res = await axios.put(`https://api.getresync.com/meetings/${id}/update`, meetingData);
       console.log(meetingData);
       if (res.status === 200) toast.success('Updated successfully!');
     } catch (error) {
