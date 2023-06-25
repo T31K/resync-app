@@ -86,7 +86,9 @@ function Vote({ voteData, setVoteData, updateMeeting }) {
                   <Card
                     className={`w-full hover:border-gray-400 hover:cursor-pointer ${
                       option.subs.includes(user.sub) ? 'bg-gray-100' : ''
-                    }`}
+                    }
+                    ${option.title == '' ? 'hidden' : ''}
+                    `}
                     key={key}
                     onClick={() => handleVote(key)}
                   >
