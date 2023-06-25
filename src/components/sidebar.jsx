@@ -22,7 +22,7 @@ export function Sidebar({ className }) {
 
   async function fetchMeetings() {
     try {
-      const res = await axios.post('http://localhost:3001/meetings', { sub: user.sub });
+      const res = await axios.post('https://api.getresync.com/meetings', { sub: user.sub });
       setLocalMeeting(res.data);
     } catch (error) {
       console.error(error);

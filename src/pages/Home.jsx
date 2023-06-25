@@ -12,7 +12,7 @@ export function Home({ meetingData, setMeetingData }) {
 
   async function fetchMeetings() {
     try {
-      const res = await axios.post('http://localhost:3001/meetings', { sub: user.sub });
+      const res = await axios.post('https://api.getresync.com/meetings', { sub: user.sub });
       setMeetingData(res.data);
     } catch (error) {
       console.error(error);
