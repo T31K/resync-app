@@ -19,6 +19,7 @@ function Show() {
     if (location?.pathname) {
       fetchMeeting(location?.pathname.slice(1));
     }
+    console.log(location.pathname);
   }, [location]);
 
   async function fetchMeeting(id) {
